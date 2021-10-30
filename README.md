@@ -1,4 +1,4 @@
-# WhereEsolang
+# Where Esolang
 A simple esolang where you can access memory only by using "WHERE" keyword.<br>
 For example:
 ```WHERE <2 SET 0```
