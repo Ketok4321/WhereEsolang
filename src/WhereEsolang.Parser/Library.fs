@@ -37,7 +37,12 @@ module Parser =
     module Statement =
         let any, anyImpl = createParserForwardedToRef<Statement, unit> ()
         let where = skipString "WHERE" >>. space >>. condition .>> space .>>. Action.any |>> Where
-        let loop = skipString "LOOP" .>> newline >>. manyTill (any .>> newline) (skipString "END") |>> Loop
+        
+        let loopCondition = choice [
+            skipString "ANY" >>. space >>. condition |>> Any
+            skipString "ALL" >>. space >>. condition |>> All
+        ]
+        let loop = skipString "WHILE" .>> space >>. loopCondition .>> newline .>>. manyTill (any .>> newline) (skipString "END") |>> While
         
         do anyImpl := spaces >>. choice [
             where

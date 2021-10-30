@@ -20,6 +20,11 @@ module Interpreter =
         | Input () -> (fun v -> Console.Write("> "); Console.ReadLine() |> uint8)
         | Output () -> (fun v -> Console.WriteLine(v); v)
 
+    let getWhileCondition wcond =
+        match wcond with
+        | All cond -> List.forall(getCondition cond)
+        | Any cond -> List.exists(getCondition cond)
+    
     let rec run stmts cells =       
         for stmt in stmts do
             match stmt with
@@ -29,6 +34,8 @@ module Interpreter =
                     cell.contents <- getAction act cell.contents
                 if cells |> List.forall (fun c -> c.contents = 0uy) then
                     raise TerminationException
-            | Loop (lstmts) ->
-                while true do //TODO: Add some way to break out of loop
+            | While (wcond, lstmts) ->
+                let wcondFunc = getWhileCondition wcond 
+                
+                while wcondFunc (cells |> List.map (fun el -> el.contents)) do
                     run lstmts cells

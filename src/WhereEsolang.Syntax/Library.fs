@@ -5,13 +5,17 @@ type Condition =
     | LesserThan of uint8
     | Equal of uint8
 
-and Action =
+type Action =
     | Set of uint8
     | Add of uint8
     | Sub of uint8
     | Input of unit
     | Output of unit
 
-and Statement =
+type WhileCondition =
+    | Any of Condition
+    | All of Condition
+
+type Statement =
     | Where of Condition * Action
-    | Loop of Statement list
+    | While of WhileCondition * Statement list
