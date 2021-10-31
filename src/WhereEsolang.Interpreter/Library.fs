@@ -6,6 +6,9 @@ open WhereEsolang.Syntax
 exception TerminationException
 
 module Interpreter =
+    let createMemoryCells amount =
+        [1uy..amount] |> List.map ref
+    
     let getCondition cond =
         match cond with
         | GreaterThan n -> (fun v -> v > n)

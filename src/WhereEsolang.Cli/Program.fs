@@ -9,9 +9,8 @@ let code = File.ReadAllText(path)
 
 match run Parser.program code with
 | Success (res, _, _) ->
-    let cells = [1uy..4uy] |> List.map ref
     try
-        Interpreter.run res cells
+        Interpreter.run res (Interpreter.createMemoryCells 4uy)
     with
     | TerminationException -> Console.WriteLine "Program was terminated because all cells were set to 0"
 | Failure (message, error, _) -> Console.WriteLine(message)
