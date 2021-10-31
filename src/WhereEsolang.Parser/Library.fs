@@ -42,7 +42,7 @@ module Parser =
             skipString "ANY" >>. space >>. condition |>> Any
             skipString "ALL" >>. space >>. condition |>> All
         ]
-        let loop = skipString "WHILE" .>> space >>. loopCondition .>> newline .>>. manyTill (any .>> newline) (skipString "END") |>> While
+        let loop = skipString "WHILE" .>> space >>. loopCondition .>> newline .>>. manyTill (any .>> newline) (attempt (spaces .>> skipString "END")) |>> While
         
         do anyImpl := spaces >>. choice [
             where
