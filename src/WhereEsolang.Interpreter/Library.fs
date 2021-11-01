@@ -3,8 +3,6 @@
 open System
 open WhereEsolang.Syntax
 
-exception TerminationException
-
 module Interpreter =
     let createMemoryCells amount =
         [1uy..amount] |> List.map ref
@@ -35,8 +33,6 @@ module Interpreter =
                 let selectedCells = cells |> List.where (fun c -> getCondition cond c.contents)
                 for cell in selectedCells do
                     cell.contents <- getAction act cell.contents
-                if cells |> List.forall (fun c -> c.contents = 0uy) then
-                    raise TerminationException
             | While (wcond, lstmts) ->
                 let wcondFunc = getWhileCondition wcond 
                 
