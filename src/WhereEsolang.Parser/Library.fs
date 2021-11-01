@@ -5,7 +5,9 @@ open WhereEsolang.Syntax
 
 module Parser =
     let space : Parser<unit, unit> = skipChar ' '
-
+    let comment : Parser<unit, unit> = skipChar '#' .>> skipRestOfLine false
+    let whitespace : Parser<unit, unit> = attempt (spaces .>> comment .>> spaces) <|> spaces
+    
     let conditionType : Parser<_, unit> = choice [
         charReturn '>' GreaterThan
         charReturn '<' LesserThan
@@ -42,11 +44,11 @@ module Parser =
             skipString "ANY" >>. space >>. condition |>> Any
             skipString "ALL" >>. space >>. condition |>> All
         ]
-        let loop = skipString "WHILE" .>> space >>. loopCondition .>> newline .>>. manyTill (any .>> newline) (attempt (spaces .>> skipString "END")) |>> While
+        let loop = skipString "WHILE" .>> space >>. loopCondition .>> newline .>>. manyTill (any .>> newline) (attempt (whitespace .>> skipString "END")) |>> While
         
-        do anyImpl := spaces >>. choice [
+        do anyImpl := whitespace >>. choice [
             where
             loop
         ]
     
-    let program = (sepEndBy Statement.any newline) .>> spaces .>> eof
+    let program = (sepEndBy Statement.any newline) .>> whitespace .>> eof

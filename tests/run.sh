@@ -14,5 +14,6 @@ test(){
 }
 
 test "./output.wh" "1"
+test "./comments.wh" "1"
 test "./while.wh" "10"
 test "./whileinsidewhile.wh" "10"
