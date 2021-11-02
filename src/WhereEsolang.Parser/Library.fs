@@ -6,7 +6,7 @@ open WhereEsolang.Syntax
 module Parser =
     let space : Parser<unit, unit> = skipChar ' '
     let comment : Parser<unit, unit> = skipChar '#' .>> skipRestOfLine false
-    let whitespace : Parser<unit, unit> = attempt (spaces .>> comment .>> spaces) <|> spaces
+    let whitespace : Parser<unit, unit> = attempt (skipMany (spaces .>> comment .>> spaces)) <|> spaces
     
     let conditionType : Parser<_, unit> = choice [
         charReturn '>' GreaterThan
