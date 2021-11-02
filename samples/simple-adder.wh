@@ -1,12 +1,16 @@
+# Simple adder
+# A simple program that adds two numbers togheter
+# The addends must be non zero and their sum must be smaller than 128 for the program to work properly
+
 WHERE >1 ADD 251
 WHERE =1 INPUT
-WHERE <253 ADD 100
+WHERE <253 ADD 128
 WHERE =253 INPUT
 WHERE >253 SET 0
-WHILE ANY >100
-    WHERE >100 SUB 2
+WHILE ANY >128
+    WHERE >128 SUB 2
     WHERE >0 ADD 1
 END
 
 WHERE =0 SET 255
-WHERE <100 OUTPUT
+WHERE <128 OUTPUT
