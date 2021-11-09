@@ -6,9 +6,11 @@
         
         <DebugType>None</DebugType>
         <DebugSymbols>False</DebugSymbols>
-        
-        <PublishSingleFile>true</PublishSingleFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <SelfContained>true</SelfContained>
+        <PublishSingleFile>true</PublishSingleFile>
         <PublishTrimmed>true</PublishTrimmed>
         <TrimMode>Link</TrimMode>
     </PropertyGroup>
