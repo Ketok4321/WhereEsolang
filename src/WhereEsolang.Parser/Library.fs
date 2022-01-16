@@ -46,9 +46,12 @@ module Parser =
         ]
         let loop = skipString "WHILE" .>> space >>. loopCondition .>> newline .>>. manyTill (any .>> newline) (attempt (whitespace .>> skipString "END")) |>> While
         
+        let reset = skipString "RESET" |>> Reset
+        
         do anyImpl := whitespace >>. choice [
             where
             loop
+            reset
         ]
     
     let program = (sepEndBy Statement.any newline) .>> whitespace .>> eof

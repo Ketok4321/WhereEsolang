@@ -38,3 +38,6 @@ module Interpreter =
                 
                 while wcondFunc (cells |> List.map (fun el -> el.contents)) do
                     run lstmts cells
+            | Reset () ->
+                for (i, cell) in cells |> List.indexed do
+                     cell.Value <- uint8 i + 1uy

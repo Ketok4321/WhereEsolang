@@ -1,4 +1,4 @@
-﻿namespace WhereEsolang.Syntax //TODO: Change name?
+﻿namespace WhereEsolang.Syntax
 
 type Condition =
     | GreaterThan of uint8
@@ -19,3 +19,4 @@ type WhileCondition =
 type Statement =
     | Where of Condition * Action
     | While of WhileCondition * Statement list
+    | Reset of unit
