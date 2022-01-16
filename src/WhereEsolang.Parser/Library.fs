@@ -14,7 +14,7 @@ module Parser =
         charReturn '=' Equal
     ]
     
-    let condition = conditionType .>>. puint8 |>> fun (func, num) -> func num
+    let condition = conditionType .>> optional space .>>. puint8 |>> fun (func, num) -> func num
     
     module Action =
         let private noParameterAction name =
