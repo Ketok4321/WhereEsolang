@@ -6,7 +6,7 @@ open FParsec
 
 let args = Environment.GetCommandLineArgs()
 
-if args.Length = 1 then   
+if args.Length = 1 then
     let cells = Interpreter.createMemoryCells 4uy
     
     while true do
