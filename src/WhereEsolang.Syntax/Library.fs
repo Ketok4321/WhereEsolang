@@ -9,8 +9,8 @@ type Action =
     | Set of uint8
     | Add of uint8
     | Sub of uint8
-    | Input of unit
-    | Output of unit
+    | Input
+    | Output
 
 type WhileCondition =
     | Any of Condition
@@ -19,4 +19,4 @@ type WhileCondition =
 type Statement =
     | Where of Condition * Action
     | While of WhileCondition * Statement list
-    | Reset of unit
+    | Reset

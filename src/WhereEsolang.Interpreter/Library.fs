@@ -7,24 +7,21 @@ module Interpreter =
     let createMemoryCells amount =
         [1uy..amount] |> List.map ref
     
-    let getCondition cond =
-        match cond with
+    let getCondition = function
         | GreaterThan n -> (fun v -> v > n)
         | LesserThan n -> (fun v -> v < n)
-        | Equal n -> (fun v -> v = n)
+        | Equal n -> (=) n
         
-    let getAction act =
-        match act with
+    let getAction = function
         | Set n -> (fun v -> n)
         | Add n -> (fun v -> v + n)
         | Sub n -> (fun v -> v - n)
-        | Input () -> (fun v -> Console.Write("> "); Console.ReadLine() |> uint8)
-        | Output () -> (fun v -> Console.WriteLine(v); v)
+        | Input -> (fun v -> Console.Write("> "); Console.ReadLine() |> uint8)
+        | Output -> (fun v -> Console.WriteLine(v); v)
 
-    let getWhileCondition wcond =
-        match wcond with
-        | All cond -> List.forall(getCondition cond)
-        | Any cond -> List.exists(getCondition cond)
+    let getWhileCondition = function
+        | All cond -> List.forall (getCondition cond)
+        | Any cond -> List.exists (getCondition cond)
     
     let rec run stmts cells =       
         for stmt in stmts do
@@ -33,11 +30,10 @@ module Interpreter =
                 let selectedCells = cells |> List.where (fun c -> getCondition cond c.contents)
                 for cell in selectedCells do
                     cell.contents <- getAction act cell.contents
-            | While (wcond, lstmts) ->
+            | While (wcond, wstmts) ->
                 let wcondFunc = getWhileCondition wcond 
-                
                 while wcondFunc (cells |> List.map (fun el -> el.contents)) do
-                    run lstmts cells
-            | Reset () ->
-                for (i, cell) in cells |> List.indexed do
+                    run wstmts cells
+            | Reset ->
+                for i, cell in cells |> List.indexed do
                      cell.Value <- uint8 i + 1uy

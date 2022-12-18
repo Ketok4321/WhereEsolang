@@ -1,8 +1,8 @@
 open System
 open System.IO
+open FParsec
 open WhereEsolang.Parser
 open WhereEsolang.Interpreter
-open FParsec
 
 let args = Environment.GetCommandLineArgs()
 
@@ -15,16 +15,16 @@ if args.Length = 1 then
         Console.WriteLine()
         
         Console.Write("> ")
-        let command = Console.ReadLine()
+        let cmd = Console.ReadLine()
         
-        match run (Parser.Statement.any .>> Parser.whitespace) command with
+        match run (Parser.Statement.any .>> Parser.whitespace) cmd with
         | Success (res, _, _) ->
             Interpreter.run [res] cells
-        | Failure (message, error, _) -> Console.WriteLine(message)
+        | Failure (msg, err, _) -> Console.WriteLine(msg)
 else
-    let code = File.ReadAllText(args.[1])
+    let code = File.ReadAllText(args[1])
 
     match run Parser.program code with
     | Success (res, _, _) ->
         Interpreter.run res (Interpreter.createMemoryCells 4uy)
-    | Failure (message, error, _) -> Console.WriteLine(message)
+    | Failure (msg, err, _) -> Console.WriteLine(msg)

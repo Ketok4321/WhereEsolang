@@ -17,16 +17,16 @@ module Parser =
     let condition = conditionType .>> optional space .>>. puint8 |>> fun (func, num) -> func num
     
     module Action =
-        let private noParameterAction name =
+        let private noParam name =
             skipString name
-            
-        let private numberParameterAction name =
-            noParameterAction name .>> space >>. puint8
-        let set = numberParameterAction "SET" |>> Set
-        let add = numberParameterAction "ADD" |>> Add
-        let sub = numberParameterAction "SUB" |>> Sub
-        let input = noParameterAction "INPUT" |>> Input
-        let output = noParameterAction "OUTPUT" |>> Output
+        let private numberParam name =
+            noParam name .>> space >>. puint8
+        
+        let set = numberParam "SET" |>> Set
+        let add = numberParam "ADD" |>> Add
+        let sub = numberParam "SUB" |>> Sub
+        let input = noParam "INPUT" >>% Input
+        let output = noParam "OUTPUT" >>% Output
         
         let any = choice [
             set
@@ -46,7 +46,7 @@ module Parser =
         ]
         let loop = skipString "WHILE" .>> space >>. loopCondition .>> newline .>>. manyTill (any .>> newline) (attempt (whitespace .>> skipString "END")) |>> While
         
-        let reset = skipString "RESET" |>> Reset
+        let reset = skipString "RESET" >>% Reset
         
         do anyImpl := whitespace >>. choice [
             where
