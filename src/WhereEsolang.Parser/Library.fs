@@ -48,7 +48,7 @@ module Parser =
         
         let reset = skipString "RESET" >>% Reset
         
-        do anyImpl := whitespace >>. choice [
+        do anyImpl.Value <- whitespace >>. choice [
             where
             loop
             reset
