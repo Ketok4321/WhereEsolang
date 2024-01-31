@@ -23,6 +23,9 @@ let main argv =
             | Success (res, _, _) -> Interpreter.run [res] cells
             | Failure (msg, err, _) -> eprintfn "%s" msg
         1
+    | [|"-v"|] | [|"--version"|] ->
+        printfn "v0.2.2"
+        1
     | [|path|] ->
         if File.Exists(path) then
             let code = File.ReadAllText(path)
