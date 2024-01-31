@@ -10,9 +10,10 @@
 
     <PropertyGroup Condition="'$(Configuration)'=='Release'">
         <SelfContained>true</SelfContained>
-        <PublishSingleFile>true</PublishSingleFile>
+        <PublishAot>true</PublishAot>
         <PublishTrimmed>true</PublishTrimmed>
         <TrimMode>Link</TrimMode>
+        <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
 
     <ItemGroup>
